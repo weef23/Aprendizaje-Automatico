@@ -36,7 +36,6 @@ derizq = sum(data_credit.camt.value < (Q3 + (1.5*IRQ)))
 
 ########### Utilizando el Z-Score para la deteccion de Anomalias
 from scipy import  stats
-import numpy as np
 
 zscore = np.abs(stats.zscore(data_credit.camt.value))
 k = 3 ## Este criterio es un estandar

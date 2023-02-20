@@ -105,7 +105,7 @@ df_nulos[["Monto"]]=np.round(regresion.predict(x_test),0)
 print(df_nulos.head())
 
 ## Ahora procedemos a concatenar los dos dataframe, los imputados con los datos completos
-## Primero reseteamos los indices
+## Primero reseteamos los indices, se resetean los indices para poderlos integrar
 df_nulos = df_nulos.reset_index(drop=True)
 df_data = df_data.reset_index(drop=True)
 ## Procedemos con la concatenacion
@@ -133,6 +133,13 @@ print(df_data.head(5))
 y=df_data[["Historial"]]
 x=df_data[["Edad","Genero","Ecivil"]]
 
+### Por que se seleccionaron las variables anteriores para ello generamos una tabla de contingencia
+
+print("Variables de cotingencias \n:")
+print(pd.crosstab(df_data["Genero"], df_data["Historial"]))
+print(pd.crosstab(df_data["Edad"], df_data["Historial"]))
+print(pd.crosstab(df_data["Ecivil"], df_data["Historial"]))
+
 ## Antes de hacer cualquier cosa es necesario codificar las variable Edad Genero y ECivil, de lo contrario no
 ## Funcionara completamente
 d = defaultdict(LabelEncoder)
@@ -153,4 +160,16 @@ print(x_test.head(5))
 ## Entrenamos el arbol con los valores completos
 arboles = DecisionTreeClassifier(random_state=2023)
 arboles.fit(x, y)
+
+y_test = arboles.predict(x_test)
+
+df_nulos["Historial"] =y_test
 print(df_nulos.head())
+#### Procedemos con la parte final concatenar ambos df
+df_nulos = df_nulos.reset_index(drop=True)
+df_data = df_data.reset_index(drop=True)
+## Procedemos con la concatenacion
+df_imputados = pd.concat([df_nulos,df_data],axis=0)
+## Validemos que los datos se hayan imputados
+nulos = df_imputados.isnull().sum()/len(mark2) *100
+print(nulos)
