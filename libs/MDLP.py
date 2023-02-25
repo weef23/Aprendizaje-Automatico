@@ -4,8 +4,7 @@ import numpy as np
 from Entropy import entropy_numpy, cut_point_information_gain_numpy
 from math import log
 from sklearn.base import TransformerMixin
-from sklearn import datasets
-from sklearn.model_selection import train_test_split
+
 
 def previous_item(a, val):
     idx = np.where(a == val)[0][0] - 1

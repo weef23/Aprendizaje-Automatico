@@ -4,6 +4,7 @@ from sklearn.preprocessing import KBinsDiscretizer
 import math as m
 import pandas as pd
 
+
 import numpy as np
 
 #### EXISTEN DISTINTOS TIPOS DE DISCRETIZACION DE LOS DATOS
