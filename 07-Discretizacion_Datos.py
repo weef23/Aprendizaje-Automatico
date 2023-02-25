@@ -3,8 +3,7 @@
 from sklearn.preprocessing import KBinsDiscretizer
 import math as m
 import pandas as pd
-
-
+from MDLP import MDLP_Discretizer
 import numpy as np
 
 #### EXISTEN DISTINTOS TIPOS DE DISCRETIZACION DE LOS DATOS
@@ -117,5 +116,20 @@ print(impureza2 * 0.65)
 suma_i=(impureza1*0.35)+(impureza2*0.65);
 print(suma_i)
 
-import os
-print(os.getcwd())
+#### UTILIZANDO EL MODULO MDLP PARA DISCRETIZACION POR ENTROPIA
+print(data.head())
+x=data.iloc[:,0:3].values
+y=data.iloc[:,3].values
+
+
+### A continuacion definimos que columna es la que nosotros deseamos discretizar
+ba=[2] ## El 2 representa el Indice de la columna en el dataframe
+n_predictores = np.array(ba) ## Se convierte en un numpy array
+print(n_predictores)
+### Creamos el objeto discretizador, y luego lo entrenamos
+discretizer = MDLP_Discretizer(features=n_predictores)
+discretizer.fit(x,y)
+
+### Aplicamos la discretizacion
+data["cqi_entropia"]=discretizer.transform(x)[:, 2]
+print(data.head(2))
