@@ -3,6 +3,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 ### El tratamiento de los datos Atipicos es muy importante ya que puede afectar procesos como el de clusterizacion
 ### Es por ello que se debe aplicar un tratamiento a esos datos
 data_credit = pd.read_csv("./Datos/data_credit.csv", sep=",", encoding="ISO-8859-1")
