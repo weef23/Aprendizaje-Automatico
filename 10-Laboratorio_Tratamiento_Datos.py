@@ -2,6 +2,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import KBinsDiscretizer
+from imblearn.under_sampling import RandomUnderSampler
+from imblearn.over_sampling import RandomOverSampler
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
@@ -65,3 +68,30 @@ plt.show()
 z_score = np.abs(stats.zscore(x_train[columns_number].values))
 x_train_zscore = x_train[(z_score < 3).all(axis=1)]
 print(x_train_zscore)
+
+### PASO NUMERO 4 DISCRETIZACION DE VARIABLES
+
+### Aplicamos la discretizacion de la variable INGRESO_BRUTO_M1
+amplitud = KBinsDiscretizer(n_bins=18, encode="ordinal", strategy="uniform")
+## Aplicamos la discretizacion
+x_train_uniform = pd.DataFrame(amplitud.fit_transform(x_train[["INGRESO_BRUTO_M1"]]))
+## Validamos la cantidad de valores por categoria
+print(x_train_uniform.value_counts(dropna=True))
+
+### Discretizacion por Quantile
+cuartil = KBinsDiscretizer(n_bins=4, encode="ordinal", strategy="quantile")
+x_train_quantile = pd.DataFrame(cuartil.fit_transform(x_train[["EDAD"]]))
+print(x_train_quantile.value_counts(dropna=True))
+
+### PASO NUMERO 5 BALANCEO DE DATOS
+### APLICAMOS UNDERSAMPLING A LOS DATOS  PARA EQUILIBRAR LAS CLASES
+
+### Primero con UnderSampling
+us = RandomUnderSampler(sampling_strategy=0.8, random_state=20)
+x_under, y_under = us.fit_resample(x_train, y_train)
+print(pd.value_counts(y_under))
+
+### Ahora con Oversampling
+over = RandomOverSampler(sampling_strategy=0.8,random_state=20)
+x_under, y_under = over.fit_resample(x_train, y_train)
+print(pd.value_counts(y_under))
