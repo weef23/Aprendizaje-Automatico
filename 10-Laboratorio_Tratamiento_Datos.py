@@ -93,5 +93,5 @@ print(pd.value_counts(y_under))
 
 ### Ahora con Oversampling
 over = RandomOverSampler(sampling_strategy=0.8,random_state=20)
-x_under, y_under = over.fit_resample(x_train, y_train)
-print(pd.value_counts(y_under))
+x_over, y_over = over.fit_resample(x_train, y_train)
+print(pd.value_counts(y_over))
