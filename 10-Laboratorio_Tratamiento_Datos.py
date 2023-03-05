@@ -81,6 +81,7 @@ print(x_train_uniform.value_counts(dropna=True))
 ### Discretizacion por Quantile
 cuartil = KBinsDiscretizer(n_bins=4, encode="ordinal", strategy="quantile")
 x_train_quantile = pd.DataFrame(cuartil.fit_transform(x_train[["EDAD"]]))
+print("Discretizacion por cuantil")
 print(x_train_quantile.value_counts(dropna=True))
 
 ### PASO NUMERO 5 BALANCEO DE DATOS
